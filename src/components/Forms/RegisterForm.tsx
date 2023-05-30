@@ -1,13 +1,13 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import { IUser } from 'types';
+import { IUser } from '../../types';
 
 import ContactFormStl from './ContactForm.module.css';
 
 const initialValues = { name: '', email: '', password: '' };
 const schema = yup.object().shape({
-  naem: yup.string(),
-  email: yup.string().email(),
+  name: yup.string().required(),
+  email: yup.string().email().required(),
   password: yup
     .string()
     .required('No password provided.')

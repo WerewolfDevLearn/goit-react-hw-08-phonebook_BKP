@@ -6,7 +6,7 @@ import ContactFormStl from './ContactForm.module.css';
 
 const initialValues = { email: '', password: '' };
 const schema = yup.object().shape({
-  email: yup.string().email(),
+  email: yup.string().email().required(),
   password: yup
     .string()
     .required('No password provided.')
@@ -24,12 +24,12 @@ export default function LoginForm() {
       <Form className={ContactFormStl.ContactForm}>
         <label className={ContactFormStl.label} htmlFor='email'>
           Email
-          <Field type='text' name='email' className={ContactFormStl.input} />
+          <Field type='email' name='email' className={ContactFormStl.input} />
           <ErrorMessage name='email' />
         </label>
         <label className={ContactFormStl.label} htmlFor='password'>
           Password
-          <Field type='text' name='password' className={ContactFormStl.input} />
+          <Field type='password' name='password' className={ContactFormStl.input} />
           <ErrorMessage name='password' />
         </label>
         <button type='submit' className={ContactFormStl.buttonSubmit}>
