@@ -1,5 +1,5 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
-import { useDispatch } from 'react-redux';
+
 import usePHBState from '../../redux/selectors';
 import * as yup from 'yup';
 import { addContact } from '../../redux/contactsOps';
@@ -9,6 +9,7 @@ import ContactFormStl from './ContactForm.module.css';
 
 // types
 import { IValues } from '../../types';
+import { useAppDispatch } from '../../redux/store';
 // variables
 const initialValues = { name: '', number: '' };
 const phoneRegExp = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
@@ -21,7 +22,7 @@ const schema = yup.object().shape({
 export default function ContactForm() {
   const { contacts } = usePHBState();
   const { items } = contacts;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const onSubmitFormik = (values: IValues, { resetForm }: FormikHelpers<IValues>) => {
     if (items.some((item) => item.name.toLocaleLowerCase() === values.name.toLocaleLowerCase())) {
       alert(`${values.name} is already in Contacts`);

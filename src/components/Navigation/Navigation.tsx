@@ -5,7 +5,7 @@ import navStyle from './Navigation.module.css';
 const Navigation = () => {
   return (
     <ul className={navStyle.list}>
-      <li key='NavigationContacts'>
+      <li key='NavigationRegister'>
         <NavLink to={routes.register} className={navStyle.navLink}>
           Register
         </NavLink>
