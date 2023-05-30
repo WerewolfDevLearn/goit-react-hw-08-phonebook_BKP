@@ -10,6 +10,9 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   line-height: 2;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
 }
 
 .label {
@@ -35,4 +38,7 @@
   border-radius: 4px;
   border: none;
   line-height: 1.5;
+}
+.buttonSubmit:hover {
+  background-color: rgb(61, 61, 61);
 }

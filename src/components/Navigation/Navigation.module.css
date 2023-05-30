@@ -1,18 +1,12 @@
 .list {
   list-style: none;
   display: flex;
-  padding-inline-start: 0px;
-
+  gap: 20px;
   justify-content: center;
-  align-items: flex-start;
   text-transform: uppercase;
   font-size: 20px;
   line-height: 1.5;
   font-family: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif';
-}
-
-.listItem {
-  padding-right: 20px;
 }
 
 .navLink {
@@ -21,4 +15,8 @@
   border: solid 1px #222222;
   border-radius: 2px;
   padding: 5px;
+}
+.navLink:hover {
+  background-color: #616161;
+  color: #fff;
 }

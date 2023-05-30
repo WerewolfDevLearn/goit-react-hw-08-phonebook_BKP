@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import routes from './routes';
 import Loader from './Loader/Loader';
 import Section from './Layout/Section';
+import PrivateRoutes from '../utils/PrivateRoutes';
 // lazy
 const HomePage = lazy(() => import('../pages/HomePage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
@@ -18,7 +19,9 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path={routes.login} element={<LoginPage />} />
           <Route path={routes.register} element={<RegisterPage />} />
-          <Route path={routes.contacts} element={<ContactsPage />} />
+          <Route element={<PrivateRoutes flag={false} />}>
+            <Route path={routes.contacts} element={<ContactsPage />} />
+          </Route>
           <Route path='*' element={<ErrorPage />} />
         </Route>
       </Routes>
