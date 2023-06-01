@@ -4,6 +4,7 @@ import routes from './routes';
 import Loader from './Loader/Loader';
 import Section from './Layout/Section';
 import PrivateRoutes from '../utils/PrivateRoutes';
+
 // lazy
 const HomePage = lazy(() => import('../pages/HomePage'));
 const LoginPage = lazy(() => import('../pages/LoginPage'));
@@ -13,18 +14,20 @@ const ErrorPage = lazy(() => import('../pages/ErrorPage'));
 
 export default function App() {
   return (
-    <Suspense fallback={<Loader />}>
-      <Routes>
-        <Route path={routes.home} element={<Section />}>
-          <Route index element={<HomePage />} />
-          <Route path={routes.login} element={<LoginPage />} />
-          <Route path={routes.register} element={<RegisterPage />} />
-          <Route element={<PrivateRoutes flag={false} />}>
-            <Route path={routes.contacts} element={<ContactsPage />} />
+    <>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path={routes.home} element={<Section />}>
+            <Route index element={<HomePage />} />
+            <Route path={routes.login} element={<LoginPage />} />
+            <Route path={routes.register} element={<RegisterPage />} />
+            <Route element={<PrivateRoutes flag={true} />}>
+              <Route path={routes.contacts} element={<ContactsPage />} />
+            </Route>
+            <Route path='*' element={<ErrorPage />} />
           </Route>
-          <Route path='*' element={<ErrorPage />} />
-        </Route>
-      </Routes>
-    </Suspense>
+        </Routes>
+      </Suspense>
+    </>
   );
 }

@@ -1,12 +1,13 @@
-import React from "react";
-import ContactListItemStl from "./ContactListItem.module.css";
+import React from 'react';
+import ContactListItemStl from './ContactListItem.module.css';
 
 interface IProps {
   contact: { name: string; number: string };
   onRemove: (e: React.SyntheticEvent) => void;
+  onEdit: (e: React.SyntheticEvent) => void;
 }
 
-export default function ContactListItem({ contact, onRemove }: IProps): JSX.Element {
+export default function ContactListItem({ contact, onRemove, onEdit }: IProps): JSX.Element {
   const { name, number } = contact;
   return (
     <>
@@ -15,6 +16,9 @@ export default function ContactListItem({ contact, onRemove }: IProps): JSX.Elem
           {name} : {number}
         </div>
         <section className={ContactListItemStl.action}>
+          <button type='button' onClick={onEdit}>
+            Edit
+          </button>
           <button type='button' onClick={onRemove}>
             Delete
           </button>
