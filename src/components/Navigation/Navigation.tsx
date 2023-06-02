@@ -15,11 +15,6 @@ const Navigation = () => {
           Login
         </NavLink>
       </li>
-      <li key='NavigationContacts'>
-        <NavLink to={routes.contacts} className={navStyle.navLink}>
-          Contacts
-        </NavLink>
-      </li>
     </ul>
   );
 };

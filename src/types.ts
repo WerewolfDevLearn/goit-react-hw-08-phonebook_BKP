@@ -40,3 +40,30 @@ export interface ModaLProps {
   children: JSX.Element[] | JSX.Element;
   isOpen: boolean;
 }
+
+export interface IUserState {
+  email: string;
+  name: string;
+  token: string;
+}
+
+export interface IOUser {
+  token: string;
+  name: string;
+  email: string;
+}
+export interface IOCurrentUser {
+  name: string;
+  email: string;
+}
+
+export interface Icredentials {
+  token: string;
+  user: {
+    name: string;
+    email: string;
+  };
+}
+export interface IError {
+  error: string;
+}

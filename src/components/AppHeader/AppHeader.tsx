@@ -1,11 +1,9 @@
 import Navigation from '../Navigation/Navigation';
+import UserMenu from '../UserMenu/UserMenu';
 
 function AppHeader() {
-  return (
-    <header>
-      <Navigation />
-    </header>
-  );
+  // const [cre] = useCreateUserMutation;
+  // return <header>{isLogedin ? <UserMenu /> : <Navigation />}</header>;
 }
 
 export default AppHeader;

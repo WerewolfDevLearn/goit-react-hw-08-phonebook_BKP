@@ -54,7 +54,7 @@ const contactsSlice = createSlice({
 });
 
 export const contactReduser = contactsSlice.reducer;
-console.log();
+
 // export const { Add, Remove } = contactsSlice.actions;
 //  reducer(state, action: PayloadAction<IContact>) {
 //       state.items.push(action.payload);

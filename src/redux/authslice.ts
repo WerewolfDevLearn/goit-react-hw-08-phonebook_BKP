@@ -1,18 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage';
+import { register, Userlogin, logOut, getCurrent } from './authOps';
+import { IUserState } from '../types';
 import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-const initialState = { token: '' };
-const tokenSlice = createSlice({
-  name: 'User',
-  initialState,
-  reducers: {
-    addToken: (state, action) => {
-      state.token = action.payload;
-    },
-    deleteToken: (state) => {
-      state.token = '';
-    },
+const initialState: IUserState = {
+  email: '',
+  name: '',
+  token: '',
+};
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState: initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(register.fulfilled, (state, action) => action.payload)
+      .addCase(Userlogin.fulfilled, (state: IUserState, action) => action.payload)
+      .addCase(getCurrent.fulfilled, (state: IUserState, action) => {
+        return {
+          ...state,
+          email: action.payload!.email,
+          name: action.payload!.name,
+        };
+      })
+      .addCase(logOut.fulfilled, () => initialState);
   },
 });
 
@@ -22,6 +35,5 @@ const persistConfig = {
   whitelist: ['token'],
 };
 
-export const tokenReducer = tokenSlice.reducer;
-export const persistedtokenReducer = persistReducer(persistConfig, tokenReducer);
-export const { addToken, deleteToken } = tokenSlice.actions;
+export const userReducer = userSlice.reducer;
+export const persistedUserReducer = persistReducer(persistConfig, userReducer);

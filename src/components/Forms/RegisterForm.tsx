@@ -1,9 +1,11 @@
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { IUser } from '../../types';
-
 import ContactFormStl from './ContactForm.module.css';
 
+interface RegisterForm {
+  registerUser(user: IUser): void;
+}
 const initialValues = { name: '', email: '', password: '' };
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -17,9 +19,9 @@ const schema = yup.object().shape({
 
 export default function RegisterForm() {
   const onSubmitFormik = (values: IUser, { resetForm }: FormikHelpers<IUser>) => {
-    console.log(values);
     resetForm();
   };
+
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmitFormik} validationSchema={schema}>
       <Form className={ContactFormStl.ContactForm}>

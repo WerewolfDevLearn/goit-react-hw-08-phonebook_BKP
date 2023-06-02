@@ -30,14 +30,14 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    logoutUseer: builder.mutation({
+    logoutUser: builder.mutation({
       query: () => ({
         url: 'users/logout',
         method: 'POST',
       }),
       invalidatesTags: ['User'],
     }),
-    getCurrentUseer: builder.query<void, void>({
+    getCurrentUser: builder.query<void, void>({
       query: () => ({
         url: 'users/current',
         method: 'GET',
@@ -50,6 +50,6 @@ export const authApi = createApi({
 export const {
   useCreateUserMutation,
   useLoginUserMutation,
-  useLogoutUseerMutation,
-  useGetCurrentUseerQuery,
+  useLogoutUserMutation,
+  useGetCurrentUserQuery,
 } = authApi;
