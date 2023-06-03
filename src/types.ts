@@ -42,8 +42,10 @@ export interface ModaLProps {
 }
 
 export interface IUserState {
-  email: string;
-  name: string;
+  profile: {
+    email: string;
+    name: string;
+  };
   token: string;
 }
 

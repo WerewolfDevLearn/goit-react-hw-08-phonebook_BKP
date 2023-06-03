@@ -1,16 +1,28 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from '../redux/store';
-import { register, Userlogin } from '../redux/authOps';
+import { getCurrent, register, Userlogin, logOut } from '../redux/authOps';
+import { useSelector } from 'react-redux';
+import usePHBState from '../redux/selectors';
 export default function HomePage() {
   const dispatch = useAppDispatch();
+  const state = usePHBState();
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  const user1 = {
+    // name: 'batfff',
+    email: 'batfff@bat2.com',
+    password: 'batDog123fff',
+  };
   const user2 = {
-    email: 'dogidog@dog.com',
+    email: 'dogidog1@dog.com',
     password: 'awsameDof123',
   };
 
   useEffect(() => {
-    dispatch(Userlogin(user2));
+    // dispatch(register(user1));
+    dispatch(Userlogin(user1));
+    // dispatch(getCurrent());
+    // dispatch(logOut());
+    // console.log(state);
   }, [dispatch]);
 
   return <h1>Hello World</h1>;

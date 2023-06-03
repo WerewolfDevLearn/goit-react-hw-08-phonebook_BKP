@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userRegister, userLogin, userLogOut, getCurrentUser, token } from '../services/authAxApi';
 import { ILogin, IUser, Icredentials, IOUser } from '../types';
-import axios from 'axios';
+import { RootState } from './store';
+import axios, { AxiosError } from 'axios';
 
 export const register = createAsyncThunk(
   'user/Register',
@@ -36,10 +37,11 @@ export const Userlogin = createAsyncThunk(
       token.set(credentials.token);
       return response;
     } catch (error: unknown) {
-      if (axios.isAxiosError<{ error: { message: string } }>(error)) {
-        return rejectWithValue(error.message);
-      }
-      console.error(error);
+      return error.message;
+      // if (axios.isAxiosError<{ error: { message: string } }>(error)) {
+      //   // console.log(error.message);
+      //   return rejectWithValue(error.message);
+      // }
     }
   },
 );
@@ -56,15 +58,13 @@ export const getCurrent = createAsyncThunk(
   'user/GetCurrent',
   async (_, { rejectWithValue, getState }) => {
     try {
-      const {
-        auth: { token: persistedToken },
-      } = getState();
+      const state = getState() as RootState;
+      const stateToken = state.user.token;
+      console.log('stateToken: ', stateToken);
+      if (!stateToken) return;
 
-      if (!persistedToken) {
-        return;
-      }
-      token.set(persistedToken);
-      const credentials = await getCurrentUser();
+      const credentials = await getCurrentUser(stateToken);
+      console.log('credentials: ', credentials);
 
       return credentials;
     } catch (error: unknown) {
