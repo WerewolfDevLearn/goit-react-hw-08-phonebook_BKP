@@ -1,60 +1,58 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userRegister, userLogin, userLogOut, getCurrentUser, token } from '../services/authAxApi';
-import { ILogin, IUser, Icredentials, IOUser } from '../types';
+import { ILogin, IUser, Icredentials, IOCurrentUser } from '../types';
 import { RootState } from './store';
 import axios, { AxiosError } from 'axios';
 
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<Icredentials, IUser, { rejectValue: string }>(
   'user/Register',
-  async (user: IUser, { rejectWithValue }) => {
+  async function (user, { rejectWithValue }) {
     try {
-      const credentials = await userRegister(user);
-      const response = {
-        email: credentials.user.email,
-        name: credentials.user.name,
-        token: credentials.token,
-      };
-      token.set(credentials.token);
+      const response = await userRegister(user);
+      token.set(response.token);
       return response;
     } catch (error: unknown) {
       if (axios.isAxiosError<{ error: { message: string } }>(error)) {
-        return rejectWithValue(error.message);
+        const errorAxios = error as AxiosError;
+        return rejectWithValue(errorAxios.message);
       }
       console.error(error);
     }
   },
 );
-export const Userlogin = createAsyncThunk(
+export const userlogin = createAsyncThunk<Icredentials, ILogin, { rejectValue: string }>(
   'user/Login',
-  async (loginU: ILogin, { rejectWithValue }) => {
+  async function (loginU, { rejectWithValue }) {
     try {
-      const credentials = await userLogin(loginU);
-      const response = {
-        email: credentials.user.email,
-        name: credentials.user.name,
-        token: credentials.token,
-      };
-      token.set(credentials.token);
+      const response = await userLogin(loginU);
+      token.set(response.token);
       return response;
     } catch (error: unknown) {
-      return error.message;
-      // if (axios.isAxiosError<{ error: { message: string } }>(error)) {
-      //   // console.log(error.message);
-      //   return rejectWithValue(error.message);
-      // }
+      if (axios.isAxiosError<{ error: { message: string } }>(error)) {
+        const errorAxios = error as AxiosError;
+        return rejectWithValue(errorAxios.message);
+      }
+      console.error(error);
     }
   },
 );
-export const logOut = createAsyncThunk('user/LogOut', async (_, { rejectWithValue }) => {
-  try {
-    const credentials = await userLogOut();
-    token.unset();
-    return credentials;
-  } catch (error: any) {
-    return rejectWithValue(error.message);
-  }
-});
-export const getCurrent = createAsyncThunk(
+export const logOut = createAsyncThunk<undefined, undefined, { rejectValue: string }>(
+  'user/LogOut',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await userLogOut();
+      token.unset();
+      return response;
+    } catch (error: unknown) {
+      if (axios.isAxiosError<{ error: { message: string } }>(error)) {
+        const errorAxios = error as AxiosError;
+        return rejectWithValue(errorAxios.message);
+      }
+      console.error(error);
+    }
+  },
+);
+export const getCurrent = createAsyncThunk<IOCurrentUser, undefined, { rejectValue: string }>(
   'user/GetCurrent',
   async (_, { rejectWithValue, getState }) => {
     try {
@@ -69,7 +67,8 @@ export const getCurrent = createAsyncThunk(
       return credentials;
     } catch (error: unknown) {
       if (axios.isAxiosError<{ error: { message: string } }>(error)) {
-        return rejectWithValue(error.message);
+        const errorAxios = error as AxiosError;
+        return rejectWithValue(errorAxios.message);
       }
       console.error(error);
     }

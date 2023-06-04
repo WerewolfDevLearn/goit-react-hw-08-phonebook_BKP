@@ -66,6 +66,6 @@ export interface Icredentials {
     email: string;
   };
 }
-export interface IError {
-  error: string;
-}
+export type IError = {
+  message: string;
+};

@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { ILogin, IUser, Icredentials, IOCurrentUser } from '../types';
+
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export async function userRegister(userData: IUser) {
-  const response = await axios.post<Icredentials>('/users/signup', userData);
+  const response = await axios.post('/users/signup', userData);
   return response.data;
 }
 export async function userLogin(loginData: ILogin) {
-  const response = await axios.post<Icredentials>('/users/login', loginData);
+  const response = await axios.post('/users/login', loginData);
   const data = response.data;
   return data;
 }
@@ -18,7 +19,7 @@ export async function userLogOut() {
 }
 export async function getCurrentUser(tokenAuth: string) {
   axios.defaults.headers.common.Authorization = `Bearer ${tokenAuth}`;
-  const response = await axios.get<IOCurrentUser>('/users/current');
+  const response = await axios.get('/users/current');
   const data = response.data;
   return data;
 }

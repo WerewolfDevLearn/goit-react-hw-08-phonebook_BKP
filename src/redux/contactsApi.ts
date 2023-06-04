@@ -3,11 +3,11 @@ import { RootState } from './store';
 import { IContact } from '../types';
 
 export const contactApi = createApi({
-  reducerPath: 'contactApi',
+  reducerPath: 'contacts',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://connections-api.herokuapp.com',
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).userToken.token;
+      const token = (getState() as RootState).user.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -46,3 +46,10 @@ export const contactApi = createApi({
     }),
   }),
 });
+
+export const {
+  useGetContatsQuery,
+  useCreateContactMutation,
+  useDeleteContactMutation,
+  useUpdateContactsMutation,
+} = contactApi;

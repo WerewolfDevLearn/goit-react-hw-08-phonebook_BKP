@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, Userlogin, logOut, getCurrent } from './authOps';
+import { register, userlogin, logOut, getCurrent } from './authOps';
 import { IUserState } from '../types';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -15,14 +15,14 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(register.fulfilled, (state: IUserState, { payload }) => {
-        state.profile.email = payload!.email;
-        state.profile.name = payload!.name;
+        state.profile.email = payload.user.email;
+        state.profile.name = payload.user.name;
         state.token = payload!.token;
       })
-      .addCase(Userlogin.fulfilled, (state: IUserState, { payload }) => {
-        state.profile.email = payload!.email;
-        state.profile.name = payload!.name;
-        state.token = payload!.token;
+      .addCase(userlogin.fulfilled, (state: IUserState, { payload }) => {
+        state.profile.email = payload.user.email;
+        state.profile.name = payload.user.name;
+        state.token = payload.token;
       })
       .addCase(getCurrent.fulfilled, (state: IUserState, { payload }) => {
         state.profile.email = payload!.email;
