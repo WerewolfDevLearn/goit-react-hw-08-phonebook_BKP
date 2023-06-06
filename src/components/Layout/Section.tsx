@@ -1,21 +1,21 @@
 import AppHeader from '../AppHeader/AppHeader';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-const styles = {
-  maxWidth: 1170,
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  paddingRight: 12,
-  paddingLeft: 12,
-};
+import Loader from '../Loader/Loader';
+import usePHBState from '../../redux/selectors';
+import ContainerSTL from './Section.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = () => {
+  const { isLoading } = usePHBState();
+
   return (
-    <div style={styles}>
+    <div className={ContainerSTL.container}>
       <AppHeader />
       <ToastContainer />
       <hr />
       <Outlet />
+      {isLoading && <Loader />}
     </div>
   );
 };

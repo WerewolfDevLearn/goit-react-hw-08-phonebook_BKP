@@ -14,11 +14,16 @@ export interface IContactsState {
   error: any;
 }
 export interface ISate {
-  contacts: {
-    items: IContact[];
-    isLoading: boolean;
-    error: any;
+  user: {
+    profile: {
+      email: string;
+      name: string;
+    };
+    token: string;
   };
+  error: string;
+  isLoading: boolean;
+  contacts: any;
   filter: string;
 }
 
@@ -69,3 +74,9 @@ export interface Icredentials {
 export type IError = {
   message: string;
 };
+export interface IUserMenu {
+  userName: string;
+}
+export interface RegisterForm {
+  registerUser(user: IUser): void;
+}

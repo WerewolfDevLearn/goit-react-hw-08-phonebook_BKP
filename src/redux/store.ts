@@ -5,22 +5,26 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { persistedUserReducer } from './authSlice';
 import { errorReducer } from './errorSlice';
 import { isLoadingReducer } from './isLoadingSlice';
+import { filterReducer } from './filterSlices';
+import { ErrorLogger } from '../utils/notify-MD';
 import { persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 
 export const store = configureStore({
   reducer: {
-    // user: userReducer,
     user: persistedUserReducer,
     error: errorReducer,
     isLoading: isLoadingReducer,
     [contactApi.reducerPath]: contactApi.reducer,
+    filter: filterReducer,
   },
   middleware: (gDM) =>
     gDM({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(contactApi.middleware),
+    })
+      .concat(contactApi.middleware)
+      .concat(ErrorLogger),
   devTools: process.env.NODE_ENV === 'development',
 });
 setupListeners(store.dispatch);

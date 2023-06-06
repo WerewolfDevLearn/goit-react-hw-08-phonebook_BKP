@@ -1,9 +1,11 @@
 import Navigation from '../Navigation/Navigation';
 import UserMenu from '../UserMenu/UserMenu';
+import usePHBState from '../../redux/selectors';
 
 function AppHeader() {
-  // const [cre] = useCreateUserMutation;
-  // return <header>{isLogedin ? <UserMenu /> : <Navigation />}</header>;
+  const state = usePHBState();
+  const userName = state.user.profile.name;
+  return <header>{userName ? <UserMenu userName={userName} /> : <Navigation />}</header>;
 }
 
 export default AppHeader;

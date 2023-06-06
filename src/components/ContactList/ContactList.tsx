@@ -1,25 +1,27 @@
 import ContactListItem from './ContactListItem/ContactListItem';
 import ContactListStl from './ContactListItem/ContactListItem.module.css';
-import { deleteContact } from '../../redux/contactsOps';
+import { useDeleteContactMutation } from '../../redux/contactsApi';
 import { IContact } from '../../types';
-import { useAppDispatch } from '../../redux/store';
+import Loader from '../Loader/Loader';
+
 interface ContactsListProps {
   visibleContacts: IContact[];
-  onEdit(): void;
 }
 
-export default function ContactsList({ visibleContacts, onEdit }: ContactsListProps) {
-  const dispatch = useAppDispatch();
+export default function ContactsList({ visibleContacts }: ContactsListProps) {
+  const [deleteContact, { isLoading }] = useDeleteContactMutation();
   return (
-    <ul className={ContactListStl.contactList}>
-      {visibleContacts.map((visibleContact) => (
-        <ContactListItem
-          contact={visibleContact}
-          onEdit={onEdit}
-          onRemove={() => dispatch(deleteContact(visibleContact.id!))}
-          key={visibleContact.id}
-        />
-      ))}
-    </ul>
+    <>
+      <ul className={ContactListStl.contactList}>
+        {visibleContacts!.map((visibleContact) => (
+          <ContactListItem
+            contact={visibleContact}
+            onRemove={() => deleteContact(visibleContact.id!)}
+            key={visibleContact.id}
+          />
+        ))}
+      </ul>
+      {isLoading && <Loader />}
+    </>
   );
 }

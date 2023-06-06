@@ -1,14 +1,23 @@
-import React from 'react';
+import { useState } from 'react';
 import ContactListItemStl from './ContactListItem.module.css';
-
+import Modal from '../../Modal/Modal';
+import { IContact } from '../../../types';
+import UpdateContactForm from '../../Forms/UpdateContactForm';
 interface IProps {
-  contact: { name: string; number: string };
-  onRemove: (e: React.SyntheticEvent) => void;
-  onEdit: (e: React.SyntheticEvent) => void;
+  contact: IContact;
+  onRemove: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-export default function ContactListItem({ contact, onRemove, onEdit }: IProps): JSX.Element {
+export default function ContactListItem({ contact, onRemove }: IProps): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false);
   const { name, number } = contact;
+  const onEdit = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <li className={ContactListItemStl.container}>
@@ -24,6 +33,9 @@ export default function ContactListItem({ contact, onRemove, onEdit }: IProps): 
           </button>
         </section>
       </li>
+      <Modal isOpen={isOpen} onCloseModal={closeModal}>
+        <UpdateContactForm contact={contact} closeModal={closeModal} />
+      </Modal>
     </>
   );
 }

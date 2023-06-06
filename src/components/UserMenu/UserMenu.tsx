@@ -1,22 +1,22 @@
-import navStyle from '../Navigation/Navigation.module.css';
+import UserStyle from './UserMenu.module.css';
+import { useAppDispatch } from '../../redux/store';
+import { logOut } from '../../redux/authOps';
+import { IUserMenu } from '../../types';
 
-interface IUserMenu {
-  userName: string;
-  onLogout(): void;
-}
+function UserMenu({ userName }: IUserMenu) {
+  const dispatch = useAppDispatch();
+  const onLogout = () => dispatch(logOut());
 
-function UserMenu({ userName, onLogout }: IUserMenu) {
   return (
-    <ul className={navStyle.list}>
-      <li key='userName' className={navStyle.navLink}>
+    <div className={UserStyle.list}>
+      <p key='userName' className={UserStyle.navLink}>
         {userName}
-      </li>
-      <li key='logoutBtn'>
-        <button onClick={onLogout} className={navStyle.navLink}>
-          Log Out
-        </button>
-      </li>
-    </ul>
+      </p>
+
+      <button type='button' className={UserStyle.btn} onClick={onLogout}>
+        Log Out
+      </button>
+    </div>
   );
 }
 export default UserMenu;

@@ -22,8 +22,8 @@ export const contactApi = createApi({
       }),
       providesTags: ['Contacts'],
     }),
-    createContact: builder.mutation({
-      query: (contact: IContact) => ({
+    createContact: builder.mutation<IContact, IContact>({
+      query: (contact) => ({
         url: '/contacts',
         method: 'POST',
         body: contact,
@@ -37,10 +37,11 @@ export const contactApi = createApi({
       }),
       invalidatesTags: ['Contacts'],
     }),
-    updateContacts: builder.mutation({
-      query: (contactID: string) => ({
-        url: `/contacts/${contactID}`,
+    updateContacts: builder.mutation<IContact, IContact>({
+      query: ({ id, ...rest }) => ({
+        url: `/contacts/${id}`,
         method: 'PATCH',
+        body: { ...rest },
       }),
       invalidatesTags: ['Contacts'],
     }),

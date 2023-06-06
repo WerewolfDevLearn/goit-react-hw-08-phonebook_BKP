@@ -1,16 +1,17 @@
-import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
-import { useCreateContactMutation } from '../../redux/contactsApi';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useUpdateContactsMutation } from '../../redux/contactsApi';
 import * as yup from 'yup';
 // Styles
 import ContactFormStl from './ContactForm.module.css';
 // types
 import { IValues, IContact } from '../../types';
-interface IContactForm {
-  visibleContacts?: IContact[];
+interface UpdateForm {
+  contact: IContact;
+  closeModal(): void;
 }
 
 // variables
-const initialValues = { name: '', number: '' };
+
 const phoneRegExp = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
 // validation
 const schema = yup.object().shape({
@@ -18,19 +19,17 @@ const schema = yup.object().shape({
   number: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
 });
 
-export default function ContactForm({ visibleContacts }: IContactForm) {
-  const [createContact] = useCreateContactMutation();
-  const onSubmitFormik = (values: IValues, { resetForm }: FormikHelpers<IValues>) => {
-    if (
-      visibleContacts!.some(
-        (item) => item.name.toLocaleLowerCase() === values.name.toLocaleLowerCase(),
-      )
-    ) {
-      alert(`${values.name} is already in Contacts`);
-      return;
-    }
-    createContact(values);
-    resetForm();
+export default function UpdateContactForm({ contact, closeModal }: UpdateForm) {
+  const initialValues = { name: contact.name, number: contact.number };
+  const [updateContacts] = useUpdateContactsMutation();
+  const onSubmitFormik = (values: IValues) => {
+    const newContact = {
+      ...values,
+      id: contact.id,
+    };
+    updateContacts(newContact);
+
+    closeModal();
   };
 
   return (
@@ -47,7 +46,7 @@ export default function ContactForm({ visibleContacts }: IContactForm) {
           <ErrorMessage name='number' />
         </label>
         <button type='submit' className={ContactFormStl.buttonSubmit}>
-          Add Contact
+          Update contact
         </button>
       </Form>
     </Formik>
